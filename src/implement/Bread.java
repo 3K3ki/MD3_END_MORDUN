@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Bread  implements IBread,Serializable {
+    private static final long serialVersionUID = -8212683294804416601L;
     private static Topping toppingImp = new Topping();
     public static List<Topping> listTopping = toppingImp.readFromFileTopping();
 
@@ -89,12 +90,6 @@ public class Bread  implements IBread,Serializable {
         this.topping = topping;
     }
 
-
-    @Override
-    public User inputData(Scanner sc) {
-        return null;
-    }
-
     @Override
     public void inputData1(Scanner sc, List<Topping> list) {
 
@@ -133,18 +128,7 @@ public class Bread  implements IBread,Serializable {
         System.out.printf("Danh mục sản phẩm: %s\n", topping.getToppingName());
         System.out.printf("Giá bán sản phẩm: %.1f\n", exportPrice);
         System.out.printf("Trạng thái sản phẩm: " + ((breadStatus) ? "còn" + "\n" : "Không còn" + "\n"));
-    }
-
-    @Override
-    public boolean create(User user) {
-        return false;
-    }
-
-
-
-    @Override
-    public List readFromFile() {
-        return null;
+        System.out.println("--------------------------------");
     }
 
     @Override
@@ -222,8 +206,15 @@ public class Bread  implements IBread,Serializable {
     }
 
     @Override
-    public boolean writeToFile(List list) {
+    public List<Cart> readFormFileCart() {
+        return null;
+    }
+
+    @Override
+    public boolean writeFormFileCart(List<Cart> list) {
         return false;
     }
+
+
 
 }

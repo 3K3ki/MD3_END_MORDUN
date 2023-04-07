@@ -58,10 +58,7 @@ public class Topping implements IBread, Serializable {
     }
 
 
-    @Override
-    public User inputData(Scanner sc) {
-        return null;
-    }
+
 
     @Override
     public void inputData1(Scanner sc, List<Topping> list) {
@@ -84,20 +81,9 @@ public class Topping implements IBread, Serializable {
     }
 
     @Override
-    public boolean create(User user) {
-        return false;
-    }
-
-    @Override
-    public List<User> readFromFile() {
-        return null;
-    }
-
-    @Override
     public boolean create1(Topping topping) {
         return false;
     }
-
 
     @Override
     public List<Topping> readFromFileTopping() {
@@ -184,7 +170,13 @@ public class Topping implements IBread, Serializable {
     }
 
     @Override
-    public boolean writeToFile(List list) {
+    public List<Cart> readFormFileCart() {
+        return null;
+    }
+
+    @Override
+    public boolean writeFormFileCart(List<Cart> list) {
         return false;
     }
+
 }

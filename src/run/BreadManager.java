@@ -1,8 +1,6 @@
 package run;
 
-import implement.Bread;
-import implement.Topping;
-import implement.User;
+import implement.*;
 
 
 import java.util.ArrayList;
@@ -16,6 +14,7 @@ public class BreadManager {
     public static List<Bread> listBread = breadImp.readFormFileBread();
     private static Topping toppingImp = new Topping();
     public static List<Topping> listTopping = toppingImp.readFromFileTopping();
+    private static Cart cartImp = new Cart();
 
 
     public static void main(String[] args) {
@@ -113,16 +112,29 @@ public class BreadManager {
 
             switch (choice) {
                 case 1:
-                    showProductList(listBread);
-                    System.out.println("Sản phẩm bạn muốn mua là: ");
-
+//                    showProductList(listBread);
+//                    System.out.println("Nhập số sản phẩm bạn muốn mua: ");
+//                    int countOfBuy = Integer.parseInt(sc.nextLine());
+//                    for (int i = 0; i < countOfBuy; i++) {
+//                        System.out.println("Nhập sản phẩm thứ " + (i + 1));
+//                        System.out.println("--------------------------");
+//                        User newBuy = new User();
+//                        newBuy.buyBread(sc, listBread);
+//                        listUser.add(newBuy);
+//                        boolean check = userImp.writeToFile(listUser);
+//                        if (check) {
+//                            System.out.println("Thêm mới thành công");
+//                        } else {
+//                            System.err.println("Thêm mới thất bại");
+//                        }
+//                    }
                     break;
                 case 2:
                     System.out.println("Nhập tên sản phẩm: ");
                     String searchName = sc.nextLine();
                     List<Bread> listSearch = new ArrayList<>();
                     if (listSearch.size() == 0) {
-                        System.out.println("Không tìm thấy sản phẩm");
+                        System.err.println("Không tìm thấy sản phẩm");
                     } else {
                         for (Bread bread : listSearch) {
                             if (bread.getBreadName().contains(searchName)) {
@@ -137,6 +149,23 @@ public class BreadManager {
                     showCart(sc);
                     break;
                 case 4:
+                    System.out.println("Nhập vào mật khẩu mới: ");
+                    String newPassword = sc.nextLine();
+                    for (User user : listUser) {
+                            if (user.getPassword().equals(newPassword)) {
+                                System.err.println("Mật khẩu mới giống với mật khẩu cũ! Vui lòng nhập lại.");
+                                break;
+                            }
+                            user.setPassword(newPassword); // đổi mật khẩu
+                            boolean check = userImp.writeToFile(listUser);
+                            if (check) {
+                                System.out.println("Đổi mật khẩu thành công.");
+                            } else {
+                                System.err.println("Đổi mật khẩu không thành công.");
+                            }
+                            return;
+                    }
+
                     break;
                 case 5:
                     break;

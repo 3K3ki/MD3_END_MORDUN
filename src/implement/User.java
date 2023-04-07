@@ -2,30 +2,57 @@ package implement;
 
 import data.DataURL;
 import interface1.IBread;
+import interface1.IUser;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class User implements Serializable, IBread {
+import static run.BreadManager.listBread;
+
+public class User implements Serializable, IUser {
+    private static final long serialVersionUID = -6719393978838908084L;
+    private static Bread breadImp = new Bread();
+    public static List<Bread> listBread = breadImp.readFormFileBread();
     private int userId;
+    private String email;
+
     private String userName;
     private String password;
     private String fullName;
     private boolean permission;
     private boolean userStatus;
+//    private Bread bread;
 
     public User() {
     }
 
-    public User(int userId, String userName, String password, String fullName, boolean permission, boolean userStatus) {
+//    public Bread getBread() {
+//        return bread;
+//    }
+
+//    public void setBread(Bread bread) {
+//        this.bread = bread;
+//    }
+
+    public User(int userId, String email, String userName, String password, String fullName, boolean permission, boolean userStatus) {
         this.userId = userId;
+        this.email = email;
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
         this.permission = permission;
         this.userStatus = userStatus;
+//        this.bread = bread;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getUserId() {
@@ -95,6 +122,8 @@ public class User implements Serializable, IBread {
         }else {
             newUser.setUserId(listUser.get(listUser.size()-1).getUserId()+1);
         }
+        System.out.println("Nhập email: ");
+        newUser.setEmail(sc.nextLine());
         System.out.println("Nhập username :");
         newUser.setUserName(sc.nextLine());
         System.out.println("nhập password :");
@@ -105,6 +134,22 @@ public class User implements Serializable, IBread {
         newUser.setUserStatus(true);
         return newUser;
     }
+//    public void buyBread(Scanner sc, List<Bread> list) {
+//        System.out.println("Nhập Id sản phẩm: ");
+//        int breadId = Integer.parseInt(sc.nextLine());
+//        listBread = breadImp.readFormFileBread();
+//        for (Bread bread: listBread) {
+//            if(bread.getBreadId() == breadId) {
+//                this.bread = bread;
+//                break;
+//            }
+//        }
+//    }
+
+    @Override
+    public User getCurrentLogin() {
+        return null;
+    }
 
     @Override
     public void inputData1(Scanner sc, List<Topping> list) {
@@ -114,10 +159,11 @@ public class User implements Serializable, IBread {
     @Override
     public void displayData() {
         System.out.println("--------------------------------");
+        System.out.printf("Email: %s\n", email);
         System.out.printf("Tài khoản: %s\n", userName);
         System.out.printf("Mật khẩu: %s\n", password);
         System.out.printf("Tên người dùng: %s\n", fullName);
-        System.out.printf("Permission: %b\n", permission);
+        System.out.printf("Permission: " + ((permission) ? "Admin"+ "\n" : "User" + "\n"));
     }
 
 
@@ -208,6 +254,16 @@ public class User implements Serializable, IBread {
 
     @Override
     public boolean writeFormFileBread(List<Bread> list) {
+        return false;
+    }
+
+    @Override
+    public List<Cart> readFormFileCart() {
+        return null;
+    }
+
+    @Override
+    public boolean writeFormFileCart(List<Cart> list) {
         return false;
     }
 
