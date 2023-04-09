@@ -1,7 +1,6 @@
 package implement;
 
 import data.DataURL;
-import interface1.IBread;
 import interface1.IUser;
 
 import java.io.*;
@@ -9,12 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static run.BreadManager.listBread;
-
 public class User implements Serializable, IUser {
     private static final long serialVersionUID = -6719393978838908084L;
-    private static Bread breadImp = new Bread();
-    public static List<Bread> listBread = breadImp.readFormFileBread();
+
     private int userId;
     private String email;
 
@@ -23,18 +19,11 @@ public class User implements Serializable, IUser {
     private String fullName;
     private boolean permission;
     private boolean userStatus;
-//    private Bread bread;
+    private List<CartItem> cart = new ArrayList<>();
+
 
     public User() {
     }
-
-//    public Bread getBread() {
-//        return bread;
-//    }
-
-//    public void setBread(Bread bread) {
-//        this.bread = bread;
-//    }
 
     public User(int userId, String email, String userName, String password, String fullName, boolean permission, boolean userStatus) {
         this.userId = userId;
@@ -44,7 +33,14 @@ public class User implements Serializable, IUser {
         this.fullName = fullName;
         this.permission = permission;
         this.userStatus = userStatus;
-//        this.bread = bread;
+    }
+
+    public List<CartItem> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<CartItem> cart) {
+        this.cart = cart;
     }
 
     public String getEmail() {
@@ -103,6 +99,7 @@ public class User implements Serializable, IUser {
         this.userStatus = userStatus;
     }
 
+
     @Override
     public boolean create(User user) {
         List<User> listUser = readFromFile();
@@ -113,6 +110,9 @@ public class User implements Serializable, IUser {
         boolean check = writeToFile(listUser);
         return check;
     }
+//    public void addToCart(Bread bread) {
+//        cart.add(bread);
+//    }
     @Override
     public User inputData(Scanner sc) {
         User newUser = new User();
@@ -134,21 +134,16 @@ public class User implements Serializable, IUser {
         newUser.setUserStatus(true);
         return newUser;
     }
-//    public void buyBread(Scanner sc, List<Bread> list) {
-//        System.out.println("Nhập Id sản phẩm: ");
-//        int breadId = Integer.parseInt(sc.nextLine());
-//        listBread = breadImp.readFormFileBread();
-//        for (Bread bread: listBread) {
-//            if(bread.getBreadId() == breadId) {
-//                this.bread = bread;
-//                break;
-//            }
-//        }
-//    }
 
     @Override
     public User getCurrentLogin() {
-        return null;
+        List<User> listUser = readFromFile();
+        if (listUser.size()==0){
+            return null;
+        }else {
+            User  currentUser = listUser.get(0);
+            return currentUser;
+        }
     }
 
     @Override
@@ -164,6 +159,7 @@ public class User implements Serializable, IUser {
         System.out.printf("Mật khẩu: %s\n", password);
         System.out.printf("Tên người dùng: %s\n", fullName);
         System.out.printf("Permission: " + ((permission) ? "Admin"+ "\n" : "User" + "\n"));
+        System.out.println(cart);
     }
 
 

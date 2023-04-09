@@ -14,7 +14,6 @@ public class BreadManager {
     public static List<Bread> listBread = breadImp.readFormFileBread();
     private static Topping toppingImp = new Topping();
     public static List<Topping> listTopping = toppingImp.readFromFileTopping();
-    private static Cart cartImp = new Cart();
 
 
     public static void main(String[] args) {
@@ -101,9 +100,9 @@ public class BreadManager {
         boolean exit = true;
         do {
             System.out.println("**********************CỬA HÀNG BÁNH MÌ HÂN HẠNH ĐƯỢC PHỤC VỤ************************");
-            System.out.println("1. Mua sản phẩm ");
+            System.out.println("1. Thêm sản phẩm vào giỏ hàng ");
             System.out.println("2. Tìm kiếm sản phẩm");
-            System.out.println("3. Giỏ hàng");
+            System.out.println("3. Chi tiết Giỏ hàng");
             System.out.println("4. Đổi mật khẩu");
             System.out.println("5. Phản hồi");
             System.out.println("6. Đăng xuất");
@@ -112,22 +111,28 @@ public class BreadManager {
 
             switch (choice) {
                 case 1:
-//                    showProductList(listBread);
-//                    System.out.println("Nhập số sản phẩm bạn muốn mua: ");
-//                    int countOfBuy = Integer.parseInt(sc.nextLine());
-//                    for (int i = 0; i < countOfBuy; i++) {
-//                        System.out.println("Nhập sản phẩm thứ " + (i + 1));
-//                        System.out.println("--------------------------");
-//                        User newBuy = new User();
-//                        newBuy.buyBread(sc, listBread);
-//                        listUser.add(newBuy);
-//                        boolean check = userImp.writeToFile(listUser);
-//                        if (check) {
-//                            System.out.println("Thêm mới thành công");
-//                        } else {
-//                            System.err.println("Thêm mới thất bại");
-//                        }
-//                    }
+                    showProductList(listBread);
+                    System.out.print("Nhập vào Id Bánh mì bạn muốn mua: ");
+                    int breadId = Integer.parseInt(sc.nextLine());
+                    listUser = userImp.readFromFile();
+                    for (Bread bread : listBread) {
+                        if (bread.getBreadId() == breadId) {
+                            System.out.print("Nhập vào số lượng: ");
+                            int quantity = Integer.parseInt(sc.nextLine());
+                            CartItem newCartItem = new CartItem(bread, quantity);
+
+                            // Thêm đối tượng newCartItem vào giỏ hàng của người dùng hiện tại
+                            userImp.getCart().add(newCartItem);
+                            boolean check = userImp.writeToFile(listUser);
+                            if (check) {
+                                System.out.println("Thêm bánh mì thành công!");
+                            } else {
+                                System.err.println("Thêm thất bại");
+                            }
+
+                            break;
+                        }
+                    }
                     break;
                 case 2:
                     System.out.println("Nhập tên sản phẩm: ");
@@ -142,6 +147,7 @@ public class BreadManager {
                             }
                             System.out.println("danh sách tìm kiếm là: ");
                             showProductList(listSearch);
+
                         }
                     }
                     break;
@@ -194,6 +200,21 @@ public class BreadManager {
                 case 1:
                     break;
                 case 2:
+                    System.out.println("Giỏ hàng của bạn: ");
+                    System.out.println("-----------------------------------------------------");
+                    System.out.println("|  Bread ID  |  Bread Name  |  Quantity  |  Price  |");
+                    System.out.println("-----------------------------------------------------");
+                    float total = 0;
+                    for (CartItem cartItem : userImp.getCart()) {
+                        Bread bread = cartItem.getBread();
+                        int quantity = cartItem.getQuantity();
+                        float price = bread.getExportPrice();
+                        total += price * quantity;
+                        System.out.printf("|  %d  |  %s  |  %d  |  %.1f  |\n",
+                                bread.getBreadId(), bread.getBreadName(), quantity, price);
+                    }
+                    System.out.println("-----------------------------------------------------");
+                    System.out.printf("Total: %.1f\n", total);
                     break;
                 case 3:
                     break;
